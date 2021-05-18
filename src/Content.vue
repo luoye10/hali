@@ -23,7 +23,7 @@
 	</div>
 </template>
 <script>
-import { onMounted, ref } from 'vue';
+import { onMounted, ref } from "vue";
 export default {
 	setup() {
 		const getTheNum = () => {
@@ -37,31 +37,37 @@ export default {
 		};
 		const goto = (type) => {
 			let n = getTheNum();
-			if (type === 'prev') {
-				console.log('上一集');
+			if (n === -1) {
+				return;
+			}
+			if (type === "prev") {
+				console.log("上一集");
 				if (n <= 1) {
 					n = 1;
 				} else {
 					n--;
 				}
 			}
-			if (type === 'next') {
-				console.log('下一集');
+			if (type === "next") {
+				console.log("下一集");
 				n++;
 			}
 			selectNo(n);
 		};
 		const selectNo = (num) => {
+			if (num === -1) {
+				return;
+			}
 			const reg = /(\d+)\.html$/;
 			let url = location.href;
 			url = url.replace(reg, `${num}.html`);
 			location.href = url;
 		};
 		const prev = () => {
-			goto('prev');
+			goto("prev");
 		};
 		const next = () => {
-			goto('next');
+			goto("next");
 		};
 		const isFocus = ref(false);
 		const linkNumber = ref(0);
@@ -69,7 +75,7 @@ export default {
 		const beNumber = () => {
 			let _v = parseInt(linkNumber.value);
 			if (_v !== _v) {
-				_v = '';
+				_v = "";
 			}
 			if (_v <= 0) {
 				_v = 1;
@@ -87,17 +93,17 @@ export default {
 			location.reload();
 		};
 		const findVideo = () => {
-			let el = document.querySelector('video');
+			let el = document.querySelector("video");
 			if (!el) {
-				let iframe = document.querySelector('iframe');
+				let iframe = document.querySelector("iframe");
 				if (iframe) {
-					let _v = iframe.contentDocument.querySelector('video');
+					let _v = iframe.contentDocument.querySelector("video");
 					if (_v) {
 						el = _v;
 					} else {
-						iframe = iframe.contentDocument.querySelector('iframe');
+						iframe = iframe.contentDocument.querySelector("iframe");
 						if (iframe) {
-							_v = iframe.document.querySelector('video');
+							_v = iframe.document.querySelector("video");
 							if (_v) {
 								el = _v;
 							}
@@ -110,7 +116,7 @@ export default {
 
 		// 绑定输入数字，enter跳转
 		const inputNumber = (e) => {
-			if (e.key === 'Enter' && isFocus.value) {
+			if (e.key === "Enter" && isFocus.value) {
 				/**
 				 * ???
 				 * 奇怪，当我把linkNumber变量名设为 num 的时候，
@@ -123,10 +129,10 @@ export default {
 		};
 		onMounted(() => {
 			// findVideo();
-			console.log('mounted');
+			console.log("mounted");
 			linkNumber.value = getTheNum();
 			no.value = getTheNum();
-			document.addEventListener('keyup', inputNumber);
+			document.addEventListener("keyup", inputNumber);
 		});
 		return {
 			prev,
