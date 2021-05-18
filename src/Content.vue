@@ -61,7 +61,29 @@ export default {
 		const refresh = () => {
 			location.reload();
 		};
+		const findVideo = () => {
+			let el = document.querySelector('video');
+			if (!el) {
+				let iframe = document.querySelector('iframe');
+				if (iframe) {
+					let _v = iframe.contentDocument.querySelector('video');
+					if (_v) {
+						el = _v;
+					} else {
+						iframe = iframe.contentDocument.querySelector('iframe');
+						if (iframe) {
+							_v = iframe.document.querySelector('video');
+							if (_v) {
+								el = _v;
+							}
+						}
+					}
+				}
+			}
+			console.log(el);
+		};
 		onMounted(() => {
+			findVideo();
 			console.log('mounted');
 		});
 		return {
