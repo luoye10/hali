@@ -21,7 +21,8 @@
     "content_scripts": [
         {
             "matches": [
-                "https://www.baidu.com/"
+                "http://halihali2.com/",
+                "http://halihali2.com/*"
             ],
             "js": [
                 "js/content.js"

@@ -1,7 +1,10 @@
 <template>
 	<div class="boxs-content">
-		<div class="btns">
+		<div class="btns info">
 			<div class="btn" @click="refresh">刷新</div>
+			<div class="num-info">
+				正在播放第 <span class="no-val">{{ no }}</span> 集
+			</div>
 		</div>
 		<div class="play-control">
 			<div class="btn prev" @click="prev">上一集</div>
@@ -12,7 +15,7 @@
 					class="num"
 					@focus="startFocus"
 					@blur="beNumber"
-					v-model="num"
+					v-model="linkNumber"
 					type="text"
 				/>
 			</div>
@@ -23,15 +26,36 @@
 import { onMounted, ref } from 'vue';
 export default {
 	setup() {
+		const getTheNum = () => {
+			let url = location.href;
+			const reg = /(\d+)\.html$/;
+			if (!url.match(reg)) {
+				return -1;
+			}
+			let n = RegExp.$1;
+			return n;
+		};
 		const goto = (type) => {
+			let n = getTheNum();
 			if (type === 'prev') {
 				console.log('上一集');
+				if (n <= 1) {
+					n = 1;
+				} else {
+					n--;
+				}
 			}
 			if (type === 'next') {
 				console.log('下一集');
+				n++;
 			}
+			selectNo(n);
+		};
+		const selectNo = (num) => {
+			const reg = /(\d+)\.html$/;
 			let url = location.href;
-			// location.href = url;
+			url = url.replace(reg, `${num}.html`);
+			location.href = url;
 		};
 		const prev = () => {
 			goto('prev');
@@ -40,9 +64,10 @@ export default {
 			goto('next');
 		};
 		const isFocus = ref(false);
-		const num = ref('');
+		const linkNumber = ref(0);
+		const no = ref(0);
 		const beNumber = () => {
-			let _v = parseInt(num.value);
+			let _v = parseInt(linkNumber.value);
 			if (_v !== _v) {
 				_v = '';
 			}
@@ -52,7 +77,7 @@ export default {
 			if (_v >= 10000) {
 				_v = 10000;
 			}
-			num.value = _v;
+			linkNumber.value = _v;
 			isFocus.value = false;
 		};
 		const startFocus = () => {
@@ -82,16 +107,34 @@ export default {
 			}
 			console.log(el);
 		};
+
+		// 绑定输入数字，enter跳转
+		const inputNumber = (e) => {
+			if (e.key === 'Enter' && isFocus.value) {
+				/**
+				 * ???
+				 * 奇怪，当我把linkNumber变量名设为 num 的时候，
+				 * num.value的代码运行时变成了 _num.value,导致_num找不到，报错......
+				 * ???
+				 */
+				const num = linkNumber.value;
+				selectNo(num);
+			}
+		};
 		onMounted(() => {
-			findVideo();
+			// findVideo();
 			console.log('mounted');
+			linkNumber.value = getTheNum();
+			no.value = getTheNum();
+			document.addEventListener('keyup', inputNumber);
 		});
 		return {
 			prev,
 			next,
 			refresh,
 			beNumber,
-			num,
+			linkNumber,
+			no,
 			startFocus
 		};
 	}
@@ -111,6 +154,10 @@ export default {
 		&:active {
 			background: rgb(25, 127, 179);
 		}
+	}
+	.info {
+		display: flex;
+		align-items: center;
 	}
 	.play-control {
 		display: flex;
