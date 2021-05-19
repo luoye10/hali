@@ -21,9 +21,9 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 });
 const style = {
 	position: "fixed",
-	right: "100px",
-	top: "100px",
-	"z-index": 10,
+	left: 0,
+	top: 0,
+	"z-index": 2233,
 	padding: "10px",
 	background: "#fff",
 	"border-radius": "3px",
@@ -36,6 +36,41 @@ const pluginDom = Object.assign(document.createElement("div"), {
 			return attr[0] + ":" + attr[1];
 		})
 		.join(";")
+});
+
+let isCanMove = false;
+let x = 0;
+let y = 0;
+let clientX, clientY;
+pluginDom.addEventListener("mousedown", (e) => {
+	isCanMove = true;
+	clientX = e.clientX;
+	clientY = e.clientY;
+});
+document.addEventListener("mousemove", (e) => {
+	if (!isCanMove) {
+		return;
+	}
+	const _x = e.clientX - clientX;
+	const _y = e.clientY - clientY;
+	pluginDom.style.transform = `translate(${x + _x}px, ${y + _y}px)`;
+});
+document.addEventListener("mouseup", () => {
+	isCanMove = false;
+	const transform = pluginDom.style.transform;
+	const reg = /translate\((\d+)px, (\d+)px\)/;
+	if (transform.match(reg)) {
+		let a = parseInt(RegExp.$1);
+		let b = parseInt(RegExp.$2);
+		if (a !== a) {
+			a = 0;
+		}
+		if (b !== b) {
+			b = 0;
+		}
+		x = a;
+		y = b;
+	}
 });
 
 createApp(Content).mount(pluginDom);

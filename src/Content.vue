@@ -1,12 +1,12 @@
 <template>
 	<div class="boxs-content">
 		<div class="btns info">
-			<div class="btn" @click="refresh">刷新</div>
+			<div class="btn" @click.stop="refresh">刷新</div>
 			<div class="num-info">
 				正在播放第 <span class="no-val">{{ no }}</span> 集
 			</div>
 		</div>
-		<div class="play-control">
+		<div class="play-control" @click.stop="void 0">
 			<div class="btn prev" @click="prev">上一集</div>
 			<div class="btn next" @click="next">下一集</div>
 			<div class="input">
@@ -23,7 +23,7 @@
 	</div>
 </template>
 <script>
-import { onMounted, ref } from "vue";
+import { onBeforeUnmount, onMounted, ref } from "vue";
 export default {
 	setup() {
 		const getTheNum = () => {
@@ -133,6 +133,9 @@ export default {
 			linkNumber.value = getTheNum();
 			no.value = getTheNum();
 			document.addEventListener("keyup", inputNumber);
+		});
+		onBeforeUnmount(() => {
+			document.removeEventListener("keyup", inputNumber);
 		});
 		return {
 			prev,
