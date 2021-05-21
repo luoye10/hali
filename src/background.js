@@ -1,6 +1,14 @@
-import { createApp } from 'vue';
-import Background from './Background.vue';
-createApp(Background).mount('#background');
+import { createApp } from "vue";
+import Background from "./Background.vue";
+createApp(Background).mount("#background");
+chrome.browserAction.onClicked.addListener(tab => {
+    chrome.tabs.create({
+        url: chrome.extension.getURL("background.html")
+    }, new_tab => {
+        // Tab opened.
+        console.log("click");
+    });
+});
 
 function link() {
     let es = new EventSource("http://192.168.50.166:2233");
@@ -10,17 +18,17 @@ function link() {
 function dealRes(e) {
     console.log(e);
 
-    if (e.data !== 'refresh') {
+    if (e.data !== "refresh") {
         return;
     } // 发消息给content-script，让它刷新页面
 
 
     sendMessageToContentScript({
-        cmd: 'reload-page',
-        value: '插件已经刷新，开始刷新页面!'
+        cmd: "reload-page",
+        value: "插件已经刷新，开始刷新页面!"
     }, response => {
         if (response) {
-            console.log('收到来自content-script的回复：' + response);
+            console.log("收到来自content-script的回复：" + response);
         }
     });
     setTimeout(() => {
