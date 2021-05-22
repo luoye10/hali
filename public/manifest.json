@@ -1,8 +1,8 @@
 {
 	"manifest_version": 2,
-	"name": "github extension",
+	"name": "hali",
 	"version": "1.0.0",
-	"description": "github辅助插件",
+	"description": "播放辅助",
 	"icons": {
 		"16": "bai.png",
 		"32": "bai.png",
