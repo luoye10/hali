@@ -42,6 +42,17 @@ let isCanMove = false;
 let x = 0;
 let y = 0;
 let clientX, clientY;
+
+/**
+ * 弹窗移动到右端
+ */
+function moveToRight() {
+	const style = window.getComputedStyle(pluginDom);
+	// 滚动条的宽度
+	x = window.innerWidth - parseInt(style.width) - 40;
+	pluginDom.style.transform = `translate(${x}px, 0px)`;
+}
+
 pluginDom.addEventListener("mousedown", (e) => {
 	isCanMove = true;
 	clientX = e.clientX;
@@ -75,3 +86,4 @@ document.addEventListener("mouseup", () => {
 
 createApp(Content).mount(pluginDom);
 document.body.appendChild(pluginDom);
+moveToRight();
