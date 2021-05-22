@@ -117,19 +117,12 @@ export default {
 		// 绑定输入数字，enter跳转
 		const inputNumber = (e) => {
 			if (e.key === "Enter" && isFocus.value) {
-				/**
-				 * ???
-				 * 奇怪，当我把linkNumber变量名设为 num 的时候，
-				 * num.value的代码运行时变成了 _num.value,导致_num找不到，报错......
-				 * ???
-				 */
 				const num = linkNumber.value;
 				selectNo(num);
 			}
 		};
 		onMounted(() => {
 			// findVideo();
-			console.log("mounted");
 			linkNumber.value = getTheNum();
 			no.value = getTheNum();
 			document.addEventListener("keyup", inputNumber);
