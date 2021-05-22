@@ -23,7 +23,7 @@ const style = {
 	position: "fixed",
 	left: 0,
 	top: 0,
-	"z-index": 2233,
+	"z-index": 22333,
 	padding: "10px",
 	background: "#fff",
 	"border-radius": "3px",
