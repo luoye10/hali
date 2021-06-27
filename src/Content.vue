@@ -170,10 +170,19 @@ export default {
 		const switchDark = () => {
 			if (isDark.value) {
 				removeStyle();
+				localStorage.removeItem("isDark");
 			} else {
 				addStyle();
+				localStorage.setItem("isDark", true);
 			}
 			isDark.value = !isDark.value;
+		};
+		const initDarkMode = () => {
+			const is_dark = localStorage.getItem("isDark") === "true";
+			if (is_dark) {
+				isDark.value = true;
+				addStyle();
+			}
 		};
 
 		onMounted(() => {
@@ -181,6 +190,7 @@ export default {
 			linkNumber.value = getTheNum();
 			no.value = getTheNum();
 			document.addEventListener("keyup", inputNumber);
+			initDarkMode();
 		});
 		onBeforeUnmount(() => {
 			document.removeEventListener("keyup", inputNumber);
