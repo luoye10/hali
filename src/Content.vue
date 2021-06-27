@@ -20,6 +20,14 @@
 				/>
 			</div>
 		</div>
+		<!-- 晚间模式 -->
+		<div class="drak">
+			<div class="btn" @click="switchDark">黑夜模式</div>
+		</div>
+		<!-- 网页全屏 -->
+		<!-- <div class="fullscreen">
+			<div class="btn" @click="changeFullScreen">进入网页全屏</div>
+		</div> -->
 	</div>
 </template>
 <script>
@@ -121,6 +129,53 @@ export default {
 				selectNo(num);
 			}
 		};
+
+		// 网页全屏切换
+		const isFullScreen = ref(false);
+		const changeFullScreen = () => {
+			const iframe = document.querySelector("#player");
+			if (!iframe) return;
+			if (isFullScreen.value) {
+				// 退出全屏
+				iframe.classList.remove("input-full-screen");
+			} else {
+				iframe.classList.add("input-full-screen");
+			}
+		};
+
+		const isDark = ref(false);
+		const addStyle = () => {
+			const style = document.createElement("style");
+			style.id = "dark-mode";
+			style.innerText = `
+				body,.topall{
+					background: #000;
+				}
+				.playding.clearfix {
+					background: #000;
+				}
+				.playding.mb.clearfix,.taba-down .pfromd,.footer.clearfix{
+					background: #000;
+				}
+				.plugin.box.container {
+					background: #1f1e1e !important;
+				}
+			`;
+			document.body.appendChild(style);
+		};
+		const removeStyle = () => {
+			const style = document.getElementById("dark-mode");
+			document.body.removeChild(style);
+		};
+		const switchDark = () => {
+			if (isDark.value) {
+				removeStyle();
+			} else {
+				addStyle();
+			}
+			isDark.value = !isDark.value;
+		};
+
 		onMounted(() => {
 			// findVideo();
 			linkNumber.value = getTheNum();
@@ -137,11 +192,27 @@ export default {
 			beNumber,
 			linkNumber,
 			no,
-			startFocus
+			startFocus,
+			changeFullScreen,
+			switchDark
 		};
 	}
 };
 </script>
+<style lang="less">
+.input-full-screen {
+	position: fixed;
+	left: 0;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	z-index: 22333;
+	height: 100vh;
+}
+#divplay {
+	height: 100%;
+}
+</style>
 <style lang="less" scoped>
 .boxs-content {
 	text-align: left;
