@@ -100,6 +100,11 @@ export default {
 		const refresh = () => {
 			location.reload();
 		};
+		// https://developer.mozilla.org/zh-CN/docs/Web/API/MessageChannel
+		/**
+		 * todo
+		 * 此处可利用MessageChannel尝试与iframe通信，操作iframe里面的内容
+		 */
 		const findVideo = () => {
 			let el = document.querySelector("video");
 			if (!el) {
