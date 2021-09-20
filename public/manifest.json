@@ -1,37 +1,46 @@
 {
-	"manifest_version": 2,
-	"name": "hali",
-	"version": "1.0.0",
-	"description": "播放辅助",
-	"icons": {
-		"16": "bai.png",
-		"32": "bai.png",
-		"48": "bai.png",
-		"64": "bai.png",
-		"128": "bai.png"
-	},
-	"background": {
-		"page": "background.html"
-	},
-	"browser_action": {
-		"default_icon": "bai.png",
-		"default_title": "2333"
-	},
-	"content_scripts": [
-		{
-			"matches": ["http://halihali2.com/", "http://halihali2.com/*"],
-			"js": ["js/content.js"],
-			"css": ["content.css"]
-		}
-	],
-	"permissions": [
-		"activeTab",
-		"tabs",
-		"notifications",
-		"webRequest",
-		"webRequestBlocking",
-		"storage"
-	],
-	"content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
-	"homepage_url": "https://www.bilibili.com"
+    "manifest_version": 2,
+    "name": "hali",
+    "version": "1.0.0",
+    "description": "播放辅助",
+    "icons": {
+        "16": "bai.png",
+        "32": "bai.png",
+        "48": "bai.png",
+        "64": "bai.png",
+        "128": "bai.png"
+    },
+    "background": {
+        "page": "background.html"
+    },
+    "browser_action": {
+        "default_icon": "bai.png",
+        "default_title": "2333"
+    },
+    "content_scripts": [
+        {
+            "matches": [
+                "http://halihali2.com/",
+                "http://halihali2.com/*",
+                "https://www.bilibili.com/",
+                "https://www.bilibili.com/*"
+            ],
+            "js": [
+                "js/content.js"
+            ],
+            "css": [
+                "content.css"
+            ]
+        }
+    ],
+    "permissions": [
+        "activeTab",
+        "tabs",
+        "notifications",
+        "webRequest",
+        "webRequestBlocking",
+        "storage"
+    ],
+    "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
+    "homepage_url": "https://www.bilibili.com"
 }

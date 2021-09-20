@@ -49,7 +49,7 @@ let clientX, clientY;
 function moveToRight() {
 	const style = window.getComputedStyle(pluginDom);
 	// 滚动条的宽度
-	x = window.innerWidth - parseInt(style.width) - 40;
+	x = window.innerWidth - parseInt(style.width);
 	pluginDom.style.transform = `translate(${x}px, 0px)`;
 }
 
@@ -86,4 +86,6 @@ document.addEventListener("mouseup", () => {
 
 createApp(Content).mount(pluginDom);
 document.body.appendChild(pluginDom);
-moveToRight();
+// setTimeout(() => {
+// 	moveToRight();
+// }, 1000);
